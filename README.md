@@ -11,3 +11,7 @@ sorted by date with most recent at the bottom. Tasks are also serialized, meanin
 * [x] Remove tasks
 * [x] Functioning task auto-sort by date
 * [x] Data persistence 
+
+![Main Menu](https://github.com/thatzenbuhler/TaskList/blob/master/screen2.png)
+====
+![Listing Tasks](https://github.com/thatzenbuhler/TaskList/blob/master/screen1.png)
