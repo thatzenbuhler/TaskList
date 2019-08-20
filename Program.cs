@@ -150,13 +150,26 @@ namespace TaskList
             }
         }
 
-        // "Hashes" a value from the Date class for quick comparison
-        static long DateComp(Task t)
+        // Returns true if t1 is less than t2
+        static bool DateComp(Task t1, Task t2)
         {
-            long val = 0;
-            val += t.GetDate().Time * t.GetDate().Day * t.GetDate().Month * t.GetDate().Year;
-            Console.Out.WriteLine(val);
-            return val;
+            if (t1.GetDate().Year < t2.GetDate().Year)
+            {
+                return true;
+            }
+            if (t1.GetDate().Year == t2.GetDate().Year && t1.GetDate().Month < t2.GetDate().Month)
+            {
+                return true;
+            }
+            if (t1.GetDate().Year == t2.GetDate().Year && t1.GetDate().Month == t2.GetDate().Month && t1.GetDate().Day < t2.GetDate().Day)
+            {
+                return true;
+            }
+            if (t1.GetDate().Year == t2.GetDate().Year && t1.GetDate().Month == t2.GetDate().Month && t1.GetDate().Day == t2.GetDate().Day && t1.GetDate().Time < t2.GetDate().Time)
+            {
+                return true;
+            }
+            return false;
         }
 
         static void SortTasks()
@@ -169,7 +182,7 @@ namespace TaskList
                 sorted = true;
                 for(int i = 0; i < taskList.Count - 1; ++i)
                 {
-                    if (DateComp(taskList[i]) > DateComp(taskList[i+1]))
+                    if (!DateComp(taskList[i], taskList[i+1]))
                     {
                         Task temp = taskList[i];
                         taskList[i] = taskList[i + 1];
@@ -182,7 +195,7 @@ namespace TaskList
 
         static void Exit()
         {
-            //TODO: Save persistance if needed?
+            //TODO: Save persistence if needed?
             Environment.Exit(0);
         }
     }

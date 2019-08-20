@@ -9,5 +9,5 @@ Other features are work-in-progress.
 * [x] Add new tasks (date + task description)
 * [x] Print existing tasks
 * [x] Remove tasks
-* [ ] Functioning task auto-sort by date
+* [x] Functioning task auto-sort by date
 * [ ] Data persistence 
