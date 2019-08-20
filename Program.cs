@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace TaskList
 {
+    [Serializable()]
     class Date
     {
-        private int month, day, year, time;
         public Date(int m, int d, int y, int t)
         {
-            month = m; day = d; year = y; time = t;
+            Month = m; Day = d; Year = y; Time = t;
         }
-        public int Month { get { return month; } }
-        public int Day { get { return day; } }
-        public int Year { get { return year; } }
-        public int Time { get { return time; } }
+        public int Month { get; }
+        public int Day { get; }
+        public int Year { get; }
+        public int Time { get; }
     }
 
+    [Serializable()]
     class Task
     {
         private Date date;
@@ -38,10 +38,26 @@ namespace TaskList
 
     class Program
     {
-        static List<Task> taskList = new List<Task>();
+        static List<Task> taskList;
+        static Stream stream;
+        static BinaryFormatter formatter;
 
         static void Main(string[] args)
         {
+            // Load existing data if present
+            if (File.Exists("data.dat"))
+            {
+                stream = File.Open("data.dat", FileMode.Open);
+                formatter = new BinaryFormatter();
+                taskList = (List<Task>)formatter.Deserialize(stream);
+                stream.Close();
+            }
+            else
+            {
+                taskList = new List<Task>();
+            }
+
+            // Begin mainloop
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             while(true)
             {
@@ -195,7 +211,12 @@ namespace TaskList
 
         static void Exit()
         {
-            //TODO: Save persistence if needed?
+            // Save task list
+            stream = File.Open("data.dat", FileMode.Create);
+            formatter = new BinaryFormatter();
+            formatter.Serialize(stream, taskList);
+            stream.Close();
+
             Environment.Exit(0);
         }
     }
